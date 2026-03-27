@@ -1,0 +1,85 @@
+<app-page-header
+  title="Dashboard"
+  subtitle="Today's overview, cash balance, credit, and profit"
+></app-page-header>
+
+<mat-chip-listbox [(ngModel)]="filter" (ngModelChange)="onFilterChange($event)">
+  <mat-chip-option value="Today">Today</mat-chip-option>
+  <mat-chip-option value="Weekly">Weekly</mat-chip-option>
+  <mat-chip-option value="Monthly">Monthly</mat-chip-option>
+  <mat-chip-option value="Custom">Custom Date</mat-chip-option>
+</mat-chip-listbox>
+
+<div class="custom-range" *ngIf="filter === 'Custom'">
+  <mat-form-field appearance="outline">
+    <mat-label>From Date</mat-label>
+    <input matInput type="date" [(ngModel)]="customFrom" />
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>To Date</mat-label>
+    <input matInput type="date" [(ngModel)]="customTo" />
+  </mat-form-field>
+  <button mat-flat-button color="primary" (click)="applyCustomRange()">Apply</button>
+</div>
+
+<ng-container *ngIf="overview$ | async as overview">
+  <div class="grid">
+    <app-stat-card title="Sales Today" icon="sell" trend="up" [value]="overview?.salesToday | currency : 'INR'"></app-stat-card>
+    <app-stat-card title="Purchase Today" icon="shopping_cart" trend="neutral" [value]="overview?.purchaseToday | currency : 'INR'"></app-stat-card>
+    <app-stat-card title="Profit" icon="trending_up" [trend]="(overview?.profitToday || 0) >= 0 ? 'up' : 'down'" [value]="overview?.profitToday | currency : 'INR'" [highlight]="true"></app-stat-card>
+    <app-stat-card title="Stock Value" icon="inventory_2" trend="neutral" [value]="overview?.stockValue | currency : 'INR'"></app-stat-card>
+  </div>
+
+  <div class="chart-grid">
+    <mat-card class="chart-card">
+      <mat-card-title>Top Selling Flowers</mat-card-title>
+      <div *ngIf="(overview?.topSellingFlowers || []).length === 0" class="empty">No Data Available</div>
+      <canvas
+        *ngIf="(overview?.topSellingFlowers || []).length > 0"
+        baseChart
+        [data]="topSellingConfig(overview?.topSellingFlowers || [])"
+        [type]="'doughnut'"
+      ></canvas>
+    </mat-card>
+
+    <mat-card class="chart-card">
+      <mat-card-title>Low Stock Alerts</mat-card-title>
+      <div *ngIf="(overview?.lowStock || []).length === 0" class="empty">No low stock alerts</div>
+      <mat-list *ngIf="(overview?.lowStock || []).length > 0">
+        <mat-list-item *ngFor="let item of overview?.lowStock || []">
+          {{ item.flowerName }} - {{ item.currentStock }}
+        </mat-list-item>
+      </mat-list>
+    </mat-card>
+  </div>
+
+  <mat-card class="chart-card">
+    <mat-card-title>Recent Sales</mat-card-title>
+    <div *ngIf="(overview?.recentSales || []).length === 0" class="empty">
+      No Data Available
+      <div><a mat-stroked-button color="primary" routerLink="/sales">Add First Record</a></div>
+    </div>
+    <table class="recent-table" *ngIf="(overview?.recentSales || []).length > 0">
+      <thead>
+        <tr><th>Date</th><th>Flower</th><th>Qty</th><th>Total</th></tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let sale of overview?.recentSales || []">
+          <td>{{ sale.date }}</td>
+          <td>{{ sale.flowerName }}</td>
+          <td>{{ sale.weight }}</td>
+          <td>{{ sale.totalAmount || sale.price | currency : 'INR' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </mat-card>
+
+  <div class="quick-grid">
+    <a mat-flat-button color="primary" class="quick-btn" *ngFor="let action of quickActions" [routerLink]="action.route">
+      {{ action.label }}
+    </a>
+  </div>
+</ng-container>
+<div *ngIf="!(overview$ | async)" class="empty">
+  Loading dashboard...
+</div>

@@ -1,0 +1,25 @@
+<div class="register-page">
+  <mat-card class="register-card">
+    <h2>Register New Shop</h2>
+    <p>Create your flower shop account</p>
+
+    <form [formGroup]="form" class="register-form">
+      <mat-form-field appearance="outline"><mat-label>Shop Name</mat-label><input matInput formControlName="shopName" /></mat-form-field>
+      <mat-form-field appearance="outline"><mat-label>Owner Name</mat-label><input matInput formControlName="ownerName" /></mat-form-field>
+      <mat-form-field appearance="outline"><mat-label>Mobile Number</mat-label><input matInput formControlName="phone" /></mat-form-field>
+      <mat-form-field appearance="outline"><mat-label>Email</mat-label><input matInput type="email" formControlName="email" /></mat-form-field>
+      <mat-form-field appearance="outline"><mat-label>Password</mat-label><input matInput type="password" formControlName="password" /></mat-form-field>
+      <mat-form-field appearance="outline"><mat-label>City</mat-label><input matInput formControlName="city" /></mat-form-field>
+      <mat-form-field appearance="outline" class="full-width"><mat-label>Address</mat-label><textarea rows="2" matInput formControlName="address"></textarea></mat-form-field>
+
+      <button mat-flat-button color="primary" class="submit-btn" (click)="register()" [disabled]="isLoading">
+        {{ isLoading ? 'Creating Shop...' : 'Create Shop' }}
+      </button>
+      <mat-progress-spinner *ngIf="isLoading" mode="indeterminate" diameter="28"></mat-progress-spinner>
+
+      <a mat-button routerLink="/login">Back to Login</a>
+    </form>
+    <p class="success" *ngIf="success">{{ success }}</p>
+    <p class="error" *ngIf="error">{{ error }}</p>
+  </mat-card>
+</div>

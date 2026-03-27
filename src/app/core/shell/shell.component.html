@@ -1,0 +1,135 @@
+<ng-container *ngIf="{ isMobile: (isMobile$ | async) ?? false } as vm">
+  <mat-sidenav-container class="shell-container">
+    <mat-sidenav
+      #drawer
+      class="shell-nav"
+      [class.collapsed]="sidebarCollapsed && !vm.isMobile"
+      [mode]="vm.isMobile ? 'over' : 'side'"
+      [opened]="vm.isMobile ? false : true"
+    >
+      <div class="brand-row">
+        <div class="brand-logo">
+          <mat-icon>local_florist</mat-icon>
+        </div>
+        <div class="brand-text" *ngIf="!sidebarCollapsed || vm.isMobile">
+          <h2>{{ (shopProfile$ | async)?.shopName || 'Flower SaaS' }}</h2>
+          <p>Shop Management</p>
+        </div>
+      </div>
+
+      <div class="sidenav-search" *ngIf="!sidebarCollapsed || vm.isMobile">
+        <mat-icon>search</mat-icon>
+        <input
+          type="text"
+          [formControl]="navSearchControl"
+          placeholder="Filter menu..."
+          aria-label="Filter navigation"
+        />
+      </div>
+
+      <div class="nav-groups">
+        <div class="nav-group" *ngFor="let group of filteredNavGroups$ | async">
+          <div class="group-title" *ngIf="!sidebarCollapsed || vm.isMobile">{{ group.title }}</div>
+
+          <a
+            mat-list-item
+            class="nav-item"
+            *ngFor="let item of group.items"
+            [routerLink]="item.route"
+            routerLinkActive="active-link"
+            [routerLinkActiveOptions]="{ exact: item.route === '/dashboard' }"
+            (click)="closeOnMobile(drawer, vm.isMobile)"
+          >
+            <mat-icon>{{ item.icon }}</mat-icon>
+            <span *ngIf="!sidebarCollapsed || vm.isMobile">{{ item.label }}</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="nav-footer">
+        <button mat-flat-button color="warn" class="logout-btn" (click)="logout()">
+          <mat-icon>logout</mat-icon>
+          <span *ngIf="!sidebarCollapsed || vm.isMobile">Logout</span>
+        </button>
+      </div>
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+      <header class="topbar">
+        <div class="left-tools">
+          <button mat-icon-button class="menu-btn" (click)="vm.isMobile ? drawer.toggle() : toggleSidebar()">
+            <mat-icon>{{ vm.isMobile ? 'menu' : (sidebarCollapsed ? 'menu_open' : 'menu') }}</mat-icon>
+          </button>
+          <div class="app-title">{{ (shopProfile$ | async)?.shopName || 'Flower Shop Manager' }}</div>
+        </div>
+
+        <div class="right-tools">
+          <div class="search-box">
+            <mat-icon>search</mat-icon>
+            <input
+              [formControl]="topSearchControl"
+              (input)="onGlobalSearchChange($any($event.target).value)"
+              placeholder="Search flowers, customers, suppliers, transactions"
+            />
+            <div class="search-dropdown" *ngIf="(searchResults$ | async) as results" [style.display]="results.length ? 'block' : 'none'">
+              <button type="button" class="result-item" *ngFor="let result of results" (click)="openResult(result)">
+                <div class="result-label">{{ result.label }}</div>
+                <div class="result-meta">{{ result.type }} {{ result.subLabel ? '• ' + result.subLabel : '' }}</div>
+              </button>
+            </div>
+          </div>
+          <button mat-icon-button class="icon-btn"><mat-icon>notifications</mat-icon></button>
+          <button mat-icon-button class="avatar-btn" [matMenuTriggerFor]="profileMenu">
+            <mat-icon>account_circle</mat-icon>
+          </button>
+          <mat-menu #profileMenu="matMenu" class="profile-menu">
+            <ng-container *ngIf="shopProfile$ | async as shopProfile">
+              <button mat-menu-item disabled>
+                <mat-icon>person</mat-icon>
+                <span>{{ shopProfile.userName || shopProfile.email }}</span>
+              </button>
+              <button mat-menu-item disabled>
+                <mat-icon>badge</mat-icon>
+                <span>{{ shopProfile.shopCode }}</span>
+              </button>
+              <button mat-menu-item disabled>
+                <mat-icon>store</mat-icon>
+                <span>{{ shopProfile.shopName }}</span>
+              </button>
+            </ng-container>
+            <button mat-menu-item routerLink="/admin/profile">
+              <mat-icon>account_circle</mat-icon>
+              <span>View Profile</span>
+            </button>
+            <button mat-menu-item routerLink="/admin/profile">
+              <mat-icon>edit</mat-icon>
+              <span>Edit Profile</span>
+            </button>
+            <button mat-menu-item routerLink="/admin/shop-settings">
+              <mat-icon>settings</mat-icon>
+              <span>Shop Settings</span>
+            </button>
+            <button mat-menu-item (click)="logout()">
+              <mat-icon>logout</mat-icon>
+              <span>Logout</span>
+            </button>
+          </mat-menu>
+        </div>
+      </header>
+
+      <main class="shell-main">
+        <router-outlet></router-outlet>
+      </main>
+
+      <button mat-fab color="primary" class="quick-fab" [matMenuTriggerFor]="quickMenu">
+        <mat-icon>add</mat-icon>
+      </button>
+      <mat-menu #quickMenu="matMenu">
+        <button mat-menu-item routerLink="/sales">Add Sale</button>
+        <button mat-menu-item routerLink="/purchases">Add Purchase</button>
+        <button mat-menu-item routerLink="/expenses">Add Expense</button>
+        <button mat-menu-item routerLink="/waste">Add Waste</button>
+      </mat-menu>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</ng-container>

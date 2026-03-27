@@ -1,0 +1,21 @@
+<app-page-header title="Profile" subtitle="View and update account information"></app-page-header>
+
+<mat-card class="profile-card" *ngIf="profile$ | async as profile">
+  <div class="meta-grid">
+    <div><strong>Shop Name:</strong> {{ profile.shopName }}</div>
+    <div><strong>Shop ID:</strong> {{ profile.shopCode }}</div>
+    <div><strong>Email:</strong> {{ profile.email }}</div>
+    <div><strong>Role:</strong> {{ profile.role }}</div>
+  </div>
+
+  <form [formGroup]="form" class="profile-form">
+    <mat-form-field appearance="outline">
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="name" />
+      <mat-error *ngIf="form.get('name')?.touched && form.get('name')?.invalid">Name is required</mat-error>
+    </mat-form-field>
+    <button mat-flat-button color="primary" [disabled]="isSaving || form.invalid" (click)="save()">
+      {{ isSaving ? 'Saving...' : 'Save Profile' }}
+    </button>
+  </form>
+</mat-card>

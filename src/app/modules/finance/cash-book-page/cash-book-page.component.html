@@ -1,0 +1,29 @@
+<app-page-header title="Cash Book" subtitle="Daily cash inflow and outflow summary"></app-page-header>
+
+<mat-card class="cash-card" *ngIf="stats$ | async as stats">
+  <div class="cash-grid">
+    <div class="cash-item">
+      <h4>Cash Sales</h4>
+      <p>{{ stats?.salesToday | currency : 'INR' }}</p>
+    </div>
+    <div class="cash-item">
+      <h4>Purchases</h4>
+      <p>{{ stats?.purchaseToday | currency : 'INR' }}</p>
+    </div>
+    <div class="cash-item">
+      <h4>Expenses</h4>
+      <p>{{ stats?.expenseToday | currency : 'INR' }}</p>
+    </div>
+    <div class="cash-item highlight">
+      <h4>Closing Cash</h4>
+      <p>{{ ((stats?.salesToday || 0) - (stats?.purchaseToday || 0) - (stats?.expenseToday || 0)) | currency : 'INR' }}</p>
+    </div>
+  </div>
+  <div class="actions">
+    <button mat-flat-button color="primary" (click)="printCashbook(stats)">
+      <mat-icon>print</mat-icon>
+      Print Cashbook
+    </button>
+  </div>
+</mat-card>
+

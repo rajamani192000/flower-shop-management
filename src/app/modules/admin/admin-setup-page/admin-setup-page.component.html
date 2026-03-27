@@ -1,0 +1,6 @@
+<app-page-header title="Admin Setup" subtitle="Manual database initialization for this shop"></app-page-header>
+<mat-card>
+  <button mat-flat-button color="primary" (click)="initializeDatabase()" [disabled]="isInitializing">
+    {{ isInitializing ? 'Initializing...' : 'Initialize Database' }}
+  </button>
+</mat-card>

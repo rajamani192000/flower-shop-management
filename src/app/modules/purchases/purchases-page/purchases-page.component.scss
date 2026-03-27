@@ -1,0 +1,81 @@
+.purchase-card {
+  border-radius: 16px;
+  margin-bottom: 12px;
+  box-shadow: 0 10px 24px rgba(35, 39, 47, 0.08);
+}
+
+.purchase-form {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.file-box {
+  display: grid;
+  gap: 6px;
+  font-size: 13px;
+}
+
+.save-btn {
+  min-height: 48px;
+  border-radius: 24px;
+}
+
+.list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.table-search {
+  width: 300px;
+  max-width: 100%;
+}
+
+.bill-items {
+  margin: 10px 0;
+}
+
+.bill-footer {
+  display: grid;
+  gap: 10px;
+  align-items: center;
+}
+
+.bill-total {
+  font-weight: 700;
+  color: #111827;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 20px 8px;
+  color: #666a73;
+}
+
+.loading-wrap {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+
+.purchase-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.purchase-table th,
+.purchase-table td {
+  text-align: left;
+  padding: 10px 8px;
+  border-bottom: 1px solid #eceef4;
+  font-size: 13px;
+}
+
+@media (min-width: 768px) {
+  .purchase-form {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}

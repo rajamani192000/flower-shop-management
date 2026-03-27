@@ -1,0 +1,11 @@
+<mat-card class="stat-card" [class.highlight]="highlight">
+  <div class="stat-top">
+    <div class="title">{{ title }}</div>
+    <mat-icon class="icon">{{ icon }}</mat-icon>
+  </div>
+  <div class="value">{{ value }}</div>
+  <div class="trend" [class.up]="trend === 'up'" [class.down]="trend === 'down'">
+    <mat-icon>{{ trend === 'up' ? 'trending_up' : trend === 'down' ? 'trending_down' : 'trending_flat' }}</mat-icon>
+    <span>{{ trend === 'up' ? 'Positive trend' : trend === 'down' ? 'Needs attention' : 'Stable' }}</span>
+  </div>
+</mat-card>

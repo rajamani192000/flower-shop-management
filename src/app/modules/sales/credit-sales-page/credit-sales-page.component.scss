@@ -1,0 +1,16 @@
+.credit-card {
+  border-radius: 16px;
+  margin-bottom: 12px;
+}
+
+.credit-form {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+@media (min-width: 900px) {
+  .credit-form {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}

@@ -1,0 +1,48 @@
+<app-page-header title="Credit Collection" subtitle="Collect pending dues with bill-wise visibility"></app-page-header>
+
+<mat-card class="credit-card">
+  <form class="credit-form" [formGroup]="form">
+    <mat-form-field appearance="outline">
+      <mat-label>Customer</mat-label>
+      <mat-select formControlName="customerId">
+        <mat-option *ngFor="let customer of customers" [value]="customer.id">
+          {{ customerLabel(customer) }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="form.get('customerId')?.touched && form.get('customerId')?.invalid">Customer is required</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Amount</mat-label>
+      <input matInput type="number" formControlName="amount" />
+      <mat-error *ngIf="form.get('amount')?.touched && form.get('amount')?.invalid">Amount must be greater than 0</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Date</mat-label>
+      <input matInput type="date" formControlName="date" />
+    </mat-form-field>
+
+    <button mat-flat-button color="primary" (click)="save()" [disabled]="form.invalid || isSaving">
+      {{ isSaving ? 'Saving...' : 'Collect & Print Receipt' }}
+    </button>
+  </form>
+</mat-card>
+
+<mat-card class="credit-card">
+  <h3>Pending Bills</h3>
+  <table *ngIf="pendingRows.length > 0">
+    <thead>
+      <tr><th>Bill No</th><th>Date</th><th>Pending Amount</th><th>Status</th></tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let row of pendingRows">
+        <td>{{ row.billNo }}</td>
+        <td>{{ row.date }}</td>
+        <td>{{ row.amount | currency:'INR' }}</td>
+        <td>{{ row.status }}</td>
+      </tr>
+    </tbody>
+  </table>
+  <div *ngIf="pendingRows.length === 0" class="empty-state">No pending bills for selected customer</div>
+</mat-card>

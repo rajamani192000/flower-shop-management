@@ -1,0 +1,42 @@
+.cash-card {
+  border-radius: 16px;
+}
+
+.cash-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+.cash-item {
+  background: #f8fafc;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 12px;
+}
+
+.cash-item h4 {
+  margin: 0 0 6px;
+  color: #6b7280;
+}
+
+.cash-item p {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.cash-item.highlight {
+  background: #eef2ff;
+}
+
+.actions {
+  margin-top: 12px;
+}
+
+@media (min-width: 900px) {
+  .cash-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}

@@ -1,0 +1,13 @@
+<app-page-header title="Reports" subtitle="Daily, weekly, monthly, profit and waste insights"></app-page-header>
+<mat-card>
+  <h3>Waste Percentage</h3>
+  <p>{{ wastePercentage$ | async }}%</p>
+</mat-card>
+<mat-card>
+  <h3>Top Selling Flowers</h3>
+  <mat-list>
+    <mat-list-item *ngFor="let item of topSelling$ | async">
+      {{ item.flowerId }} - {{ item.totalWeight }} kg
+    </mat-list-item>
+  </mat-list>
+</mat-card>

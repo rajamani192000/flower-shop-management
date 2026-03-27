@@ -1,0 +1,77 @@
+.crud-card {
+  margin-bottom: 12px;
+  border-radius: 16px;
+}
+
+.crud-form {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+.crud-form.two-columns {
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+}
+
+.full-width {
+  width: 100%;
+}
+
+.button-row {
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.large-btn {
+  min-height: 48px;
+  border-radius: 24px;
+}
+
+.record-row {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.record-text {
+  font-size: 12px;
+  max-width: calc(100% - 88px);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.record-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.records-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.filter-field {
+  width: 240px;
+  max-width: 100%;
+}
+
+.table-wrap {
+  overflow-x: auto;
+}
+
+.records-table {
+  width: 100%;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 16px 8px;
+  color: #707070;
+}

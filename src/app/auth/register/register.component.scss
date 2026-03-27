@@ -1,0 +1,46 @@
+.register-page {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  background: #f5f6fa;
+}
+
+.register-card {
+  width: 100%;
+  max-width: 620px;
+  border-radius: 20px;
+}
+
+.register-form {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: 1fr;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.submit-btn {
+  min-height: 48px;
+  border-radius: 24px;
+}
+
+.success {
+  color: #2e7d32;
+}
+
+.error {
+  color: #c62828;
+}
+
+@media (min-width: 768px) {
+  .register-form {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .full-width {
+    grid-column: 1 / -1;
+  }
+}

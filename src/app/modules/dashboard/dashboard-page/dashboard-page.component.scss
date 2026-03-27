@@ -1,0 +1,65 @@
+.grid {
+  margin-top: 12px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 10px;
+}
+
+.custom-range {
+  margin-top: 12px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  align-items: center;
+}
+
+.chart-grid {
+  margin-top: 12px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+.chart-card {
+  border-radius: 16px;
+  box-shadow: 0 10px 24px rgba(35, 39, 47, 0.08);
+}
+
+.quick-grid {
+  margin-top: 12px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.quick-btn {
+  min-height: 48px;
+  border-radius: 24px;
+}
+
+.empty {
+  padding: 14px;
+  color: #6d6f76;
+}
+
+.recent-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.recent-table th,
+.recent-table td {
+  text-align: left;
+  padding: 10px 8px;
+  border-bottom: 1px solid #eceef4;
+}
+
+@media (min-width: 768px) {
+  .custom-range {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .chart-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

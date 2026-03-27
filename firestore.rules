@@ -1,0 +1,13 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // WARNING: This allows ANYONE (even unauthenticated) to read/write.
+    // Use this ONLY for debugging to confirm the "stuck" issue is resolved.
+    match /{document=**} {
+      allow read, write: if true;
+    }
+    
+  }
+}
