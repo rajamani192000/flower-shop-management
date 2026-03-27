@@ -1,13 +1,56 @@
 rules_version = '2';
-
 service cloud.firestore {
   match /databases/{database}/documents {
-    
-    // WARNING: This allows ANYONE (even unauthenticated) to read/write.
-    // Use this ONLY for debugging to confirm the "stuck" issue is resolved.
-    match /{document=**} {
-      allow read, write: if true;
+    function signedIn() {
+      return request.auth != null;
     }
-    
+
+    function userDoc() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid));
+    }
+
+    function sameShop(shopId) {
+      return signedIn() && userDoc().data.shopId == shopId;
+    }
+
+    match /users/{uid} {
+      allow read: if signedIn() && request.auth.uid == uid;
+      allow write: if false;
+    }
+
+    match /{collection}/{docId} {
+      allow read, write: if false;
+    }
+
+    match /shops/{shopId} {
+      allow read: if sameShop(shopId);
+      allow write: if false;
+    }
+
+    match /flowers/{docId},
+          /customers/{docId},
+          /suppliers/{docId},
+          /purchases/{docId},
+          /sorting/{docId},
+          /sales/{docId},
+          /expenses/{docId},
+          /waste/{docId},
+          /creditSales/{docId},
+          /creditCollections/{docId},
+          /priceHistory/{docId},
+          /stock/{docId},
+          /settings/{docId},
+          /units/{docId},
+          /expenseTypes/{docId},
+          /wasteReasons/{docId},
+          /flowerCategories/{docId},
+          /boxTracking/{docId} {
+      allow read: if signedIn() && sameShop(resource.data.shopId);
+      allow create: if signedIn() && sameShop(request.resource.data.shopId);
+      allow update: if signedIn()
+        && sameShop(resource.data.shopId)
+        && sameShop(request.resource.data.shopId);
+      allow delete: if signedIn() && sameShop(resource.data.shopId);
+    }
   }
 }
